@@ -1,0 +1,23 @@
+{{if .}}
+  {{range .}}
+    <div class="user" id="user-{{.ID}}">
+      <span>{{.Name}} – {{.Email}}</span>
+      <div class="actions">
+        <button
+          class="edit"
+          hx-get="/users/{{.ID}}/edit"
+          hx-target="#edit-form"
+          hx-swap="innerHTML"
+        >Edit</button>
+        <button
+          class="delete"
+          hx-delete="/users/{{.ID}}"
+          hx-target="#user-list-wrapper"
+          hx-swap="innerHTML"
+        >Delete</button>
+      </div>
+    </div>
+  {{end}}
+{{else}}
+  <p>No users found.</p>
+{{end}}

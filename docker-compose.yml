@@ -1,0 +1,63 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres-init:
+        condition: service_completed_successfully
+    env_file:
+      - .env
+    environment:
+      - DBHOST=postgres
+      - DBPORT=5432
+    networks:
+      - go-net
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: lesson_pg_user
+      POSTGRES_PASSWORD: lesson_pg_pass
+      POSTGRES_DB: lesson_pg_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lesson_pg_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - go-net
+
+  postgres-init:
+    image: postgres:15
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_PASSWORD: lesson_pg_pass
+    volumes:
+      - ./pg-init:/scripts
+    entrypoint: ["bash", "-c", "sleep 10 && PGPASSWORD=lesson_pg_pass psql -h postgres -U lesson_pg_user -d lesson_pg_db -f /scripts/init.sql"]
+    networks:
+      - go-net
+    restart: "no"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8081:8080"
+    networks:
+      - go-net
+
+volumes:
+  pgdata:
+
+networks:
+  go-net:

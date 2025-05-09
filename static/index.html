@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HTMX + Go + PostgreSQL</title>
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f0f2f5;
+      color: #333;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    form, .user {
+      margin-bottom: 20px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .user {
+      padding: 10px;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 4px;
+    }
+    .actions button {
+      background-color: #007bff;
+      margin-left: 5px;
+    }
+    .actions button.delete {
+      background-color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+  <h1>HTMX + Go + PostgreSQL</h1>
+
+  <!-- Add User Form -->
+  <form hx-post="/users" hx-target="#user-list-wrapper" hx-swap="innerHTML">
+    <input type="text" name="name" placeholder="Name" required />
+    <input type="email" name="email" placeholder="Email" required />
+    <button type="submit">Add User</button>
+  </form>
+
+  <!-- Area for edit form -->
+  <div id="edit-form"></div>
+
+  <!-- Users List on Load -->
+  <div id="user-list-wrapper">
+    <div id="user-list" hx-get="/users" hx-trigger="load" hx-swap="outerHTML">
+      <p>Loading users...</p>
+    </div>
+  </div>
+
+  <noscript>
+    <div style="color: red;">JavaScript is required for HTMX to function properly.</div>
+  </noscript>
+
+  <script>
+    document.body.addEventListener("htmx:configRequest", function(evt) {
+      console.log("HTMX is working ✅", evt);
+    });
+  </script>
+</body>
+</html>

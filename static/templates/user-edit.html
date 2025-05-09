@@ -1,0 +1,11 @@
+<form
+  hx-put="/users/{{.ID}}"
+  hx-target="#user-list-wrapper"
+  hx-swap="innerHTML"
+  class="edit-form"
+  onsubmit="document.getElementById('edit-form').innerHTML = ''"
+>
+  <input type="text" name="name" value="{{.Name}}" required />
+  <input type="email" name="email" value="{{.Email}}" required />
+  <button type="submit">Save</button>
+</form>

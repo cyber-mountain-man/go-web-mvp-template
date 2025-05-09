@@ -1,0 +1,23 @@
+# 🔐 Environment configuration
+.env
+.env.*    # Catch .env.local, .env.production, etc.
+
+# ⚙️ Go binaries and builds
+*.exe
+*.test
+*.out
+/build/   # If you're using a custom build directory
+
+# 📁 Vendor dependencies (Go modules)
+vendor/
+
+# 🧠 IDE/editor configs
+.vscode/
+.idea/
+*.swp
+
+# 🔄 Module checksums (optional, if using vendoring only)
+# go.sum
+
+# 🧪 Test output
+*.coverprofile
