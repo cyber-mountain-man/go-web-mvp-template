@@ -89,6 +89,10 @@ func UpdateUserHTMX(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Notify frontend to clear the edit form
+	w.Header().Set("HX-Trigger", "userUpdated")
+
+	// Refresh user List
 	ListUsersHTMX(w, r)
 }
 

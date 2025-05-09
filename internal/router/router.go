@@ -21,6 +21,14 @@ func SetupRouter() http.Handler {
 		http.Redirect(w, r, "/static/index.html", http.StatusFound)
 	})
 
+	// Named routes for each navbar static page
+	r.Get("/features", serveStaticPage("features.html"))
+	r.Get("/pricing", serveStaticPage("pricing.html"))
+	r.Get("/about", serveStaticPage("about.html"))
+	r.Get("/contact", serveStaticPage("contact.html"))
+	r.Get("/signup", serveStaticPage("signup.html"))
+	r.Get("/login", serveStaticPage("login.html"))
+
 	// Health check
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("✅ OK"))
@@ -36,6 +44,13 @@ func SetupRouter() http.Handler {
 	})
 
 	return r
+}
+
+// serveStaticPage returns a handler that serves a static HTML file
+func serveStaticPage(filename string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "static/"+filename)
+	}
 }
 
 // fileServer serves static files at the given path

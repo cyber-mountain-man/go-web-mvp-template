@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HTMX + Go + PostgreSQL</title>
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+  </head>
+<body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title has-text-centered">User Management</h1>
+
+      <!-- Add User Form -->
+      <form 
+        class="box"
+        hx-post="/users"
+        hx-target="#user-list-wrapper"
+        hx-swap="innerHTML"
+      >
+        <div class="field">
+          <label class="label">Name</label>
+          <div class="control">
+            <input class="input" type="text" name="name" placeholder="Name" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Email</label>
+          <div class="control">
+            <input class="input" type="email" name="email" placeholder="Email" required />
+          </div>
+        </div>
+
+        <div class="field is-grouped is-grouped-right">
+          <div class="control">
+            <button class="button is-success" type="submit">Add User</button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Edit Form Area -->
+      <div id="edit-form" class="mb-4"></div>
+
+      <!-- User List (loaded via HTMX) -->
+      <div id="user-list-wrapper">
+        <div id="user-list" hx-get="/users" hx-trigger="load" hx-swap="outerHTML">
+          <p>Loading users...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <noscript>
+    <div class="notification is-danger has-text-centered">
+      JavaScript is required for HTMX to function properly.
+    </div>
+  </noscript>
+
+  <!-- Script to clear edit form after update -->
+  <script>
+    document.body.addEventListener("htmx:afterOnLoad", function(evt) {
+      if (evt.detail.xhr.getResponseHeader("HX-Trigger") === "userUpdated") {
+        const editForm = document.getElementById("edit-form");
+        if (editForm) {
+          editForm.innerHTML = "";
+        }
+      }
+    });
+
+    document.body.addEventListener("htmx:configRequest", function(evt) {
+      console.log("HTMX is working ✅", evt);
+    });
+  </script>
+</body>
+</html>

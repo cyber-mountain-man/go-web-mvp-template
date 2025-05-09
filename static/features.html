@@ -3,19 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Go Web MVP Template - Clean Full-Stack Starter</title>
-  <meta name="description" content="A lightweight GO + Bulma starter template using HTMX, PostgreSQL, and Docker. Perfect for launching MVPs fast." />
-  
-  <!-- Favicon Recommend 32x32 PNG-->
-  <link rel="icon" type="image/png" href="/static/favicon.png" />
-
-  <!-- Bulma CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+  <title>Features – Go Web MVP</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
 </head>
-
 <body>
-  <!-- Navigation Bar -->
+     <!-- Navigation Bar -->
   <nav class="navbar is-light" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="#">
@@ -48,41 +40,19 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="hero is-info is-medium">
-    <div class="hero-body has-text-centered">
-      <p class="title">Go + Bulma</p>
-      <p class="subtitle">A clean MVP template with HTMX, PostgreSQL, and Docker</p>
-      <a href="/static/users.html" target="_blank" rel="noopener noreferrer" class="button is-dark is-medium mt-4">Launch App</a>
+  <section class="section">
+    <div class="container has-text-centered">
+      <h1 class="title">Features</h1>
+      <p class="subtitle">Explore the capabilities of this Go + HTMX + PostgreSQL template.</p>
     </div>
   </section>
 
-   <!-- Footer -->
-  <footer class="footer">
-    <div class="content has-text-centered">
-      <p>
-        <strong>go-web-mvp-template</strong> by <a href="#">Cyber Mountain Man</a>.
-        Code licensed <a href="https://opensource.org/licenses/MIT">MIT</a>.
-        Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>.
-      </p>
-    </div>
-  </footer>
-
-  <!-- Optional JS for navbar toggle -->
+  <!-- Auto-highlight current nav item -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const $navbarBurgers = Array.from(document.querySelectorAll('.navbar-burger'));
-      $navbarBurgers.forEach(el => {
-        el.addEventListener('click', () => {
-          const target = document.getElementById(el.dataset.target);
-          el.classList.toggle('is-active');
-          target.classList.toggle('is-active');
-        });
-      });
-  
-    // Auto-highlight current nav item
+  document.addEventListener('DOMContentLoaded', () => {
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll('.navbar-start .navbar-item');
+
     navLinks.forEach(link => {
       const linkPath = new URL(link.href).pathname;
       if (linkPath === currentPath) {

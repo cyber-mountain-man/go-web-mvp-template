@@ -1,23 +1,30 @@
 {{if .}}
   {{range .}}
-    <div class="user" id="user-{{.ID}}">
-      <span>{{.Name}} – {{.Email}}</span>
-      <div class="actions">
-        <button
-          class="edit"
+    <div class="box is-flex is-justify-content-space-between is-align-items-center" id="user-{{.ID}}">
+      <div>
+        <strong>{{.Name}}</strong><br />
+        <small>{{.Email}}</small>
+      </div>
+      <div class="buttons">
+        <button 
+          class="button is-link is-light"
           hx-get="/users/{{.ID}}/edit"
           hx-target="#edit-form"
           hx-swap="innerHTML"
-        >Edit</button>
-        <button
-          class="delete"
+        >
+          Edit
+        </button>
+        <button 
+          class="button is-danger is-light"
           hx-delete="/users/{{.ID}}"
           hx-target="#user-list-wrapper"
           hx-swap="innerHTML"
-        >Delete</button>
+        >
+          Delete
+        </button>
       </div>
     </div>
   {{end}}
 {{else}}
-  <p>No users found.</p>
+  <div class="notification is-warning has-text-centered">No users found.</div>
 {{end}}
