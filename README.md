@@ -1,146 +1,120 @@
+# 🚀 Go Web MVP Template
 
-# 🚀 HTMX + Go + PostgreSQL Starter Template
+A clean, functional starter template for building minimal web applications using:
 
-This project is a full-stack web application starter built with:
-
-- ✅ Go (chi router)
-- ✅ PostgreSQL for persistent storage
-- ✅ HTMX for seamless frontend interactions
-- ✅ Docker & Docker Compose for local development
-- ✅ Adminer for PostgreSQL GUI management
+- ⚙️ **Go** for backend logic
+- ⚡ **HTMX** for modern interactions without JavaScript frameworks
+- 🐘 **PostgreSQL** for persistent data
+- 🎨 **Bulma CSS** for a lightweight UI
+- 🖥️ **Adminer** for simple database management
 
 ---
 
-## 📁 Project Structure
+## 📁 File Structure
 
 ```
+
 ├── cmd/
 │   └── api/
-│       └── main.go              # App entry point
+│       └── main.go              # Entry point of the Go web server
 ├── internal/
 │   ├── db/
-│   │   └── db.go                # DB connection and queries
+│   │   └── db.go                # DB connection + queries
 │   ├── handlers/
-│   │   └── user_handler_htmx.go # HTMX route handlers
+│   │   └── user\_handler\_htmx.go # HTMX-compatible CRUD handlers
 │   ├── models/
-│   │   └── user.go              # User model
+│   │   └── user.go              # User struct definition
 │   └── router/
-│       └── router.go            # Chi router configuration
+│       └── router.go            # Chi router setup
 ├── static/
-│   ├── index.html               # Main frontend page
+│   ├── index.html               # Frontend entry page (HTMX + Bulma)
 │   └── templates/
-│       ├── user-list.html       # List fragment
-│       └── user-edit.html       # Edit form
+│       ├── user-list.html       # User list fragment (HTMX)
+│       └── user-edit.html       # Edit form fragment (HTMX)
 ├── pg-init/
-│   └── init.sql                 # Initializes DB schema/data
-├── .env                         # Environment variables
-├── Dockerfile                   # Go build configuration
-├── docker-compose.yml           # Development environment config
+│   └── init.sql                 # Bootstrap SQL for PostgreSQL
+├── .env                         # Environment variables for DB config
+├── .gitignore                   # Git ignore rules
+├── Dockerfile                   # Builds the Go app container
+├── docker-compose.yml           # Full development stack orchestration
+├── reset-adminer.ps1            # Utility script to reset Adminer
+├── New-GoHTMX-Postgres-Template.ps1 # PowerShell script to scaffold a new app
 └── README.md                    # This file
-```
+
+````
 
 ---
 
-## ⚙️ Getting Started
-
-### 🧰 Prerequisites
-
-- [Docker](https://www.docker.com/)
-- [Go](https://golang.org/)
-
----
-
-## 🚀 Quick Start
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/cyber-mountain-man/golangApp-postgres.git
-cd golangApp-postgres
-```
-
-### 2. Create `.env` File
-
-```env
-DBUSER=lesson_pg_user
-DBPASSWORD=lesson_pg_pass
-DBHOST=postgres
-DBPORT=5432
-DBNAME=lesson_pg_db
-```
-
-### 3. Run with Docker Compose
-
-```bash
-docker compose up --build
-```
-
-Your services should be live:
-
-- HTMX Frontend: http://localhost:8080
-- Adminer DB GUI: http://localhost:8081
-
----
-
-## 🛠️ Adminer Login
-
-- System: PostgreSQL
-- Server: postgres
-- Username: `lesson_pg_user`
-- Password: `lesson_pg_pass`
-- Database: `lesson_pg_db`
-
----
-
-## 🐘 Verify DB with PSQL (optional)
+## 🧪 Running the App (Local Dev)
 
 ```powershell
-docker run -it --rm --network=golangapp-postgres_go-net postgres:15   psql -h postgres -U lesson_pg_user -d lesson_pg_db
+# 1. Ensure Docker is running
+# 2. From the project root:
+docker-compose up --build
+````
+
+* App runs at: [http://localhost:8080](http://localhost:8080)
+* Adminer GUI: [http://localhost:8081](http://localhost:8081)
+
+Login in Adminer with:
+
+* System: PostgreSQL
+* Server: postgres
+* Username: lesson\_pg\_user
+* Password: lesson\_pg\_pass
+* Database: lesson\_pg\_db
+
+---
+
+## 🌱 Starting a New Project from This Template
+
+```powershell
+# Clone the base
+Copy-Item -Recurse -Force .\go-web-mvp-template .\your-new-project
+
+# Enter new folder
+Set-Location .\your-new-project
+
+# Remove Git history and init new repo
+Remove-Item -Recurse -Force .git
+git init
+git remote add origin https://github.com/your-username/your-new-project.git
+
+# Push your initial commit
+git add .
+git commit -m "🌱 Initial commit from go-web-mvp-template"
+git branch -M main
+git push -u origin main
 ```
 
-Once inside:
+---
 
-```sql
-SELECT * FROM users;
+## 🛠️ Customization Tips
+
+* To add a new model:
+
+  * Create a struct in `internal/models/`
+  * Add DB functions in `internal/db/`
+  * Add route handlers in `internal/handlers/`
+  * Update `router/router.go`
+  * Create `.html` templates in `static/templates`
+
+* Change the frontend styles in `static/index.html` using Bulma.
+
+* Replace HTMX fragments with your custom HTML and Go handlers.
+
+---
+
+## 🔐 Security Notice
+
+* `.env` is ignored via `.gitignore` and **must never** be committed.
+* Do **not** use the default credentials in production.
+* For production, enforce HTTPS, validate all inputs, and restrict DB access.
+
+---
+
+## 📄 License
+
+MIT – Use freely for personal and commercial projects.
+
 ```
-
----
-
-## 🧼 Tear Down
-
-```bash
-docker compose down -v
-```
-
----
-
-## 📌 Notes
-
-- This template uses multi-stage Docker builds for minimal image size.
-- Adminer is included for convenience in development.
-- You can use this structure to scaffold future apps by replacing `users` with your own models.
-
----
-
-## ⚠️ Security Notice
-
-This project is for **local development only**. Please read carefully:
-
-### 1. Never commit `.env` files to Git
-They contain sensitive DB credentials.
-
-### 2. Hardcoded Credentials Are Public
-Replace them in production and manage securely.
-
-### 3. Adminer is for development
-Never expose it on public deployments.
-
-### 4. This app has no authentication
-Anyone with access can modify your data.
-
-### 5. Keep PostgreSQL ports private
-Don’t expose port 5432 externally without firewall/proxy protection.
-
----
-
- **In short**: Keep this app on your local machine or secure everything before deploying.
